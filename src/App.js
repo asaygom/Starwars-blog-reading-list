@@ -1,26 +1,16 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-import Card from './components/Card';
+import injectContext from './store/context'
+import Home from './views/Home';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar/>
-      <div className='py-2 d-flex justify-content-around card-bg'>
-        <Card />
-        <Card />
-        <Card />
-      </div>
-      <div className='py-2 d-flex justify-content-around card-bg'>
-        <Card />
-        <Card />
-        <Card />
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default injectContext(App);
