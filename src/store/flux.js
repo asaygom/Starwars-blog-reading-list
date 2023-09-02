@@ -45,6 +45,7 @@ const getState = ({setStore,getStore, getActions}) => {
                 url:""
             },
             listOfVehicles: [],
+            listOfFavorites: []
         },
         actions: {
             getPeople: ()=>{
@@ -53,18 +54,49 @@ const getState = ({setStore,getStore, getActions}) => {
                     headers:{"Content-Type":"application/json"}
                 }).then((response)=> response.json()).then((data)=>setStore({listOfPeople: data.results})).catch((error)=>console.log(error))
             },
-            getPlanet: ()=>{
-                fetch("https://www.swapi.tech/api/planet",{
+            getPeopleInfo: (id)=>{
+                fetch("https://www.swapi.tech/api/people/"+id,{
                     method: "GET",
                     headers:{"Content-Type":"application/json"}
-                }).then((response)=> response.json()).then((data)=>setStore({listOfPlanets: data})).catch((error)=>console.log(error))
+                }).then((response)=> response.json()).then((data)=>setStore({people: data.result.properties})).catch((error)=>console.log(error))
+            },
+            getPlanet: ()=>{
+                fetch("https://www.swapi.tech/api/planets",{
+                    method: "GET",
+                    headers:{"Content-Type":"application/json"}
+                }).then((response)=> response.json()).then((data)=>setStore({listOfPlanets: data.results})).catch((error)=>console.log(error))
+            },
+            getPlanetInfo: (id)=>{
+                fetch("https://www.swapi.tech/api/planets/"+id,{
+                    method: "GET",
+                    headers:{"Content-Type":"application/json"}
+                }).then((response)=> response.json()).then((data)=>setStore({planet: data.result.properties})).catch((error)=>console.log(error))
             },
             getVehicle: ()=>{
                 fetch("https://www.swapi.tech/api/vehicles",{
                     method: "GET",
                     headers:{"Content-Type":"application/json"}
-                }).then((response)=> response.json()).then((data)=>setStore({listOfVehicles: data})).catch((error)=>console.log(error))
-            }
+                }).then((response)=> response.json()).then((data)=>setStore({listOfVehicles: data.results})).catch((error)=>console.log(error))
+            },
+            getVehicleInfo: (id)=>{
+                fetch("https://www.swapi.tech/api/vehicles/"+id,{
+                    method: "GET",
+                    headers:{"Content-Type":"application/json"}
+                }).then((response)=> response.json()).then((data)=>setStore({vehicle: data.result.properties})).catch((error)=>console.log(error))
+            },
+            addFav: (favorite)=>{
+				const store = getStore();
+				if (store.listOfFavorites.includes(favorite)){
+					return alert("Favorite already added")
+				}
+				setStore({ listOfFavorites: [...store.listOfFavorites, favorite] })
+				return console.log(store.listOfFavorites)
+			},
+			deleteFav: (index)=>{
+				const store = getStore()
+				store.listOfFavorites.splice(index, 1)
+				setStore({listOfFavorites:store.listOfFavorites})
+			},
         }
     }
 }
